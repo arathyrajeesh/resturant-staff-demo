@@ -58,7 +58,7 @@
   }
   .notch{display:none;}
   
-  /* Laptop Grid Enhancements */
+  /* Laptop Grid & Modal Dialog Enhancements */
   @media (min-width: 600px) {
     .table-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
     #menuList { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
@@ -66,8 +66,23 @@
     #billingList { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
     #billingList .order-card { margin-bottom: 0; }
     #login > div { max-width: 440px; width: 100%; margin: 0 auto; }
-    .sheet { max-width: 580px; left: 50%; transform: translateX(-50%) translateY(102%); border-radius: 24px 24px 0 0; }
-    .sheet.show { transform: translateX(-50%) translateY(0); }
+
+    /* Centered Desktop Modal Dialogs */
+    .sheet-backdrop { position: fixed; inset: 0; z-index: 100; backdrop-filter: blur(4px); }
+    .sheet {
+      position: fixed; top: 50%; left: 50%; bottom: auto; right: auto;
+      width: 90%; max-width: 480px; max-height: 85vh;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(43, 36, 30, 0.4);
+      transform: translate(-50%, -45%) scale(0.96);
+      opacity: 0; pointer-events: none; z-index: 101;
+      transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.25, 1.2), opacity 0.2s ease;
+    }
+    .sheet.show {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1; pointer-events: auto;
+    }
+    .sheet-handle { display: none; }
     .cart-fab { max-width: 580px; left: 50%; transform: translateX(-50%); }
     .topbar, .page { padding-left: 32px; padding-right: 32px; }
     .tabbar { padding-left: 32px; padding-right: 32px; }
