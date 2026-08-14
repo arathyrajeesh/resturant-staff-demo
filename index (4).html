@@ -435,7 +435,7 @@
           <section class="page" id="page-billing">
             <div class="page-head">
               <h2>Billing Counter</h2>
-              <p id="billingSub">Auto-refreshes every 20s</p>
+              <p id="billingSub">Live Orders</p>
             </div>
             <div class="billing-tabs">
               <div class="billing-tab active" data-bt="requested">🔔 Requested<span class="dot" id="dotReq">0</span></div>
@@ -569,7 +569,7 @@ setTimeout(()=>{
   document.getElementById('login').classList.add('active');
 }, 1600);
 
-setInterval(() => { fetchOrders(); fetchTables(); }, 20000);
+
 
 /* ---------------- tables ---------------- */
 function renderTables(){
@@ -739,7 +739,7 @@ function renderBilling(){
   const reqCount = billing.requested ? billing.requested.length : 0;
   document.getElementById('dotReq').textContent = reqCount;
   document.getElementById('dotReq').style.display = reqCount ? 'flex' : 'none';
-  document.getElementById('billingSub').textContent = data.length + (data.length===1?' order':' orders') + ' · auto-refreshes every 20s';
+  document.getElementById('billingSub').textContent = data.length + (data.length===1?' order':' orders');
   list.innerHTML='';
   if(data.length===0){
     list.innerHTML = `<div class="empty-state"><div class="glyph">🧾</div><b>Nothing here yet</b><p style="font-size:12.5px;">Orders will show up as they move through the floor.</p></div>`;
