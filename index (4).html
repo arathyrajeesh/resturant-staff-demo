@@ -500,11 +500,6 @@
                 <h2>Billing Counter</h2>
                 <p id="billingSub">Live Orders</p>
               </div>
-              <div class="billing-tabs">
-                <div class="billing-tab active" data-bt="requested">🔔 Requested<span class="dot" id="dotReq">0</span></div>
-                <div class="billing-tab" data-bt="active">🔥 Active</div>
-                <div class="billing-tab" data-bt="billed">✅ Billed</div>
-              </div>
               <div id="billingList"></div>
             </section>
 
@@ -556,7 +551,7 @@
 <script>
 let tables = [];
 let menu = {};
-let billing = { requested: [], active: [], billed: [] };
+// let billing = { requested: [], active: [], billed: [] };
 let cart = [];
 let currentZone = 'all';
 let currentCat = 'Beverages';
@@ -770,23 +765,18 @@ async function placeOrder(){
   } catch(e) { showToast('Error placing order'); }
 }
 
-let currentBillTab = 'requested';
-document.querySelectorAll('.billing-tab').forEach(tab=>{
-  tab.onclick = ()=>{
-    document.querySelectorAll('.billing-tab').forEach(x=>x.classList.remove('active'));
-    tab.classList.add('active');
-    currentBillTab = tab.dataset.bt;
-    renderBilling();
-  };
-});
-
 function renderBilling(){
   const list = document.getElementById('billingList');
-  const data = billing[currentBillTab] || [];
-  const reqCount = billing.requested ? billing.requested.length : 0;
-  document.getElementById('dotReq').textContent = reqCount;
-  document.getElementById('dotReq').style.display = reqCount ? 'flex' : 'none';
-  document.getElementById('billingSub').textContent = data.length + (data.length===1?' order':' orders');
+  let data = [];
+  if (Array.isArray(billing)) {
+    data = billing;
+  } else if (billing && typeof billing === 'object') {
+    data = [...(billing.requested || []), ...(billing.active || []), ...(billing.billed || [])];
+  }
+  const billingSub = document.getElementById('billingSub');
+  if (billingSub) {
+    billingSub.textContent = data.length + (data.length===1?' order':' orders');
+  }
   list.innerHTML='';
   if(data.length===0){
     list.innerHTML = `<div class="empty-state"><div class="glyph">🧾</div><b>Nothing here yet</b><p style="font-size:12.5px;">Orders will show up as they move through the floor.</p></div>`;
